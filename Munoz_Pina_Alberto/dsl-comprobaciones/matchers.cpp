@@ -1,8 +1,4 @@
-/*
- * Fichero para el DSL de comprobaciones estáticas de código fuente en C++
- * para las prácticas de POO.
- * ©2021 Los profesores de POO.
- */
+
 
 #include "matchers.h"
 

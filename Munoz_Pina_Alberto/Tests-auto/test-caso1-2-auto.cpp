@@ -1,14 +1,8 @@
-/* $Id: test-caso1-2-auto.cpp 347 2016-05-06 19:20:38Z gerardo $
- * Pruebas unitarias automáticas para los casos de uso 1 y 2 del S. G. L.: P2
- * ©2014 Antonio G.ª Dguez.
- * ©2015-16 el resto de profesores de POO
- */
 
 #include "test-auto.hpp"
 
 using namespace std;
 
-// Variables para el siguiente conjunto de casos de prueba. ¡No tocar!
 namespace {
   const Cadena referencia("1234XYZ");
   const Cadena titulo("Prueba");
@@ -62,7 +56,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   }
   FCT_TEARDOWN_END();
 
-  // --- Pruebas de la clase Clave
 
   FCT_TEST_BGN(Clave - Ctor.: demasiado corta) {
     try {
@@ -82,11 +75,8 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   FCT_TEST_END();
 
   FCT_TEST_BGN(Clave - copia y observador y sal aleatoria) {
-    // La copia da 2 exactamente iguales, obviamente
     const Clave c("Sherlock"), d(c), e("Sherlock");
     fct_chk_eq_str(c.clave().operator const char*(), d.clave().operator const char*());
-    // Las 2 contraseñas iguales cifradas deberían ser distintas. La
-    // probabilidad de que sean iguales es MUY pequeña.
     fct_chk_neq_str(c.clave().operator const char*(), e.clave().operator const char*());
   }
   FCT_TEST_END();
@@ -103,7 +93,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   }
   FCT_TEST_END();
 
-  // --- Pruebas de la clase Numero
 
   FCT_TEST_BGN(Numero - validacion: muy corto) {
     try {
@@ -147,7 +136,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   
   FCT_TEST_BGN(Numero - validacion: cifra de comprobacion no valida) {
     try {
-      // La cifra de comprobación correcta es 8, no 2
       Numero n("01234 56789 012 2");
       fct_chk(!"Se esperaba una excepción Numero::Incorrecto(NO_VALIDO");
     } catch (const Numero::Incorrecto& ex) {
@@ -176,7 +164,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   }
   FCT_TEST_END();
 
-  // --- Pruebas de la clase Usuario
 
   FCT_TEST_BGN(Usuario - no es copiable) {
     fct_chk(!is_copy_constructible<Usuario>::value);
@@ -211,7 +198,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   }
   FCT_TEST_END();
 
-  // --- Pruebas de la clase Tarjeta
 
   FCT_TEST_BGN(Tarjeta - no es copiable) {
     fct_chk(!is_copy_constructible<Tarjeta>::value);
@@ -286,7 +272,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
     chk_incl_cstr(sTarjeta, "PERICO PEREZ PALOTES");
     chk_incl_cstr(sTarjeta, "Caduca:");
 
-    // Equivalente en C++ a printf("%02d/%02d", mes, anno%100);
     ostringstream os;
     os << setfill('0') << setw(2) << tarjeta.caducidad().mes()
        << '/' << setw(2) << (tarjeta.caducidad().anno() % 100);
@@ -295,13 +280,12 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   }
   FCT_TEST_END();
 
-  // --- Pruebas de la asociación Usuario—Tarjeta
 
   FCT_TEST_BGN(Usuario---Tarjeta - usuario roba tarjeta) {
     Usuario caco {"caco", "John", "Koone", "5.ª avda., NYC",
 	Clave("KorreEnCu3r05")};
     Tarjeta tarjeta(nTarjeta, *pU, fUnaSemana);
-    caco.es_titular_de(tarjeta); // No. La tarjeta es robada.
+    caco.es_titular_de(tarjeta); 
     fct_chk(caco.tarjetas().empty());
   }
   FCT_TEST_END();
@@ -325,7 +309,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
 	fct_chk(tarjetas.begin()->second->numero() == tarjeta.numero());
       else
 	fct_chk(!"Debería haber 1 tarjeta");
-    } // ~Tarjeta::tarjeta();
+    } 
     fct_chk(tarjetas.empty());
   }
   FCT_TEST_END();
@@ -351,7 +335,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   }
   FCT_TEST_END();
 
-  // Pruebas del carrito de la compra (asociación Usuario—Articulo)
 
   FCT_TEST_BGN(Usuario---Articulo - meter en el carrito) {
     fct_chk_eq_int(pU->n_articulos(), 0);

@@ -1,8 +1,4 @@
-/*
- * DSL para la comprobación estática de código fuente C++ 
- * para las prácticas de POO.
- * ©2012 Los profesores de POO.
- */
+
 
 #include "caclibrary.h"
 #include <iostream>

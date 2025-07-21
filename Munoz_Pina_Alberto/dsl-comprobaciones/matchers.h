@@ -1,8 +1,4 @@
-/* -*-c++-*-
- * Cabecera para el DSL de comprobaciones estáticas de código fuente en C++
- * para las prácticas de POO.
- * ©2021 Los profesores de POO.
-*/
+
 #ifndef MATCHERS_H_
 #define MATCHERS_H_
 

@@ -1,8 +1,4 @@
-/* -*-c++-*-
- * Cabecera para el DSL de las comprobaciones estáticas de código fuente
- * en las prácticas de POO.
- * ©2021 Los profesores de POO
-*/
+
 #ifndef CHECKCODE_H_
 #define CHECKCODE_H_
 

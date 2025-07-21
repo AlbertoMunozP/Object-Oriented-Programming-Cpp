@@ -1,19 +1,14 @@
-/* $Id: test-caso4-auto.cpp 338 2016-04-27 12:04:21Z gerardo $
- * ©2014 Antonio G.ª Dguez.
- * ©2015-16 el resto de profesores de POO
- */
+
 #ifdef P4
 
 #include "test-auto.hpp"
 using namespace std;
 
 namespace {
-  // Para pruebas de Autor
   const Cadena sNombreAutor1 = "Nobuo",
     sApellidosAutor1 = "Uematsu",
     sDireccionAutor1 = "Tokyo, Japón";
 
-  // Para pruebas de Libro
   Autor autor1(sNombreAutor1, sApellidosAutor1, sDireccionAutor1);
   Articulo::Autores autores = crea_autores(autor1);
 
@@ -22,16 +17,7 @@ namespace {
   const double precioLibro = 35.95;
   const unsigned paginasLibro = 650, stockLibro = 100;
 
-  // Para pruebas de Cederron
-//  const Cadena
-//    sReferenciaCederron("404"),
-//    sTituloCederron("Ubuntu Hysterical Hyena");
-//  const Fecha fechaCederron(8, 4, 2005);
-//  const double precioCederron    = 0.01;
-//  const unsigned tamanyoCederron = 400;
-//  const unsigned stockCederron   = 1000;
 
-  // Para pruebas de Revista
   const Cadena
     sReferenciaRevista("734"),
     sTituloRevista("Ubuntu mondo lirondo");
@@ -41,23 +27,18 @@ namespace {
   const unsigned periodicidadRevista = 30;
   const unsigned stockRevista        = 22;
 
-  // Para pruebas de LibroDigital
   const Cadena sReferencia_eBook("4337"),
     sTitulo_eBook("Minority Report");
   const Fecha fecha_eBook(9,9,2009);
   const double precio_eBook = 9000;
 
-  // Hay que usar punteros, o puede haber un fallo de segmentación si
-  // el orden de inicialización de los atributos estáticos no es el
-  // apropiado
+
   Usuario *pUsuarioPedido;
   Tarjeta *pTarjetaPedido;
   Pedido_Articulo pedArt;
   Usuario_Pedido  usuPed;
 
-//  Cederron cdrom(autores, sReferenciaCederron, sTituloCederron,
-//                 fechaCederron, precioCederron, tamanyoCederron,
-//                 stockCederron);
+
   Revista revista(autores, sReferenciaRevista, sTituloRevista, 
                   fechaRevista, precioRevista, numeroRevista, 
                   periodicidadRevista, stockRevista);
@@ -68,7 +49,6 @@ namespace {
                                  sTitulo_eBook, fecha_eBook,
                                  precio_eBook, Fecha() - 7);
 
-  // Parte común
   bool bPrimera = true;
 
   using TIPO = Tarjeta::Tipo;
@@ -320,10 +300,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p4) {
     pUsuarioPedido->compra(eBookNoExpirado, 1);
     thread_local Pedido p(usuPed, pedArt, *pUsuarioPedido, *pTarjetaPedido);
 
-    // Cálculo en coma flotante con precisión limitada: no se puede
-    // usar == directamente. Hay que permitir un cierto margen de
-    // diferencia, debido al error de aproximación.
-//    const double totalEsperado = cdrom.precio() + eBookNoExpirado.precio();
     const double totalEsperado = revista.precio() + eBookNoExpirado.precio();
     fct_chk_eq_dbl(p.total(), totalEsperado);
   }

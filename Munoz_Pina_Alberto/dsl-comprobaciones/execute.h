@@ -1,8 +1,4 @@
-/* -*-c++-*-
- * Cabecera para el DSL de comprobaciones estáticas de código fuente
- * de las prácticas de POO.
- * ©2021 Los profesores de POO.
-*/
+
 #ifndef EXECUTE_H_
 #define EXECUTE_H_
 

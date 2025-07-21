@@ -1,18 +1,10 @@
-/* $Id: test-caso0-fecha-auto.cpp 344 2016-04-29 20:20:13Z gerardo $
- * 
- * Pruebas unitarias automáticas para la clase Fecha (P0-P1)
- *
- * ©2014 Antonio G.ª Dguez.
- * ©2015-20 el resto de profesores de POO
- */
+
 
 #include "test-auto.hpp"
 
 using namespace std;
 
-/*
- *       Funciones y macros auxiliares
- */
+
 
 #define fecha_is_eq(f, d, m, a) (f.anno() == a && f.mes() == m && f.dia() == d)
 

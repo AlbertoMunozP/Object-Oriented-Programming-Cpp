@@ -1,8 +1,4 @@
-/* -*-c++-*-
- * Cabecera del DSL de comprobación estática de código fuente de las
- * prácticas de POO.
- * ©2021 Los profesores de POO
- */
+
 #ifndef INFO_H_
 #define INFO_H_
 

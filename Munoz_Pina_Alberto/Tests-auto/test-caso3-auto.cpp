@@ -1,14 +1,9 @@
-/* $Id: test-caso3-auto.cpp 344 2016-04-29 20:20:13Z gerardo $
- * ©2014 Antonio G.ª Dguez.
- * ©2015-19 el resto de profesores de POO
- *
- */
+
 
 #include "test-auto.hpp"
 
 using namespace std;
 
-// Variables para el siguiente conjunto de casos de prueba. ¡No tocar!
 namespace {
   const Cadena referencia("1234XYZ");
   const Cadena titulo("Prueba");
@@ -57,12 +52,7 @@ namespace {
 #if defined(P3) || defined(P4)
   struct Usu_Ped {
       typedef std::set<Pedido*> Pedidos;
-/*
-      void asocia(Usuario&, Pedido&);
-      void asocia(Pedido&, Usuario&);
-      const Pedidos& pedidos(Usuario&);
-      const Usuario* cliente(Pedido&);
-*/
+
       std::map<Usuario*, Pedidos> pedidos_;
       std::map<Pedido*, Usuario*> cliente_;
   };
@@ -70,14 +60,7 @@ namespace {
   struct Ped_Art {
     typedef std::map<Articulo*, LineaPedido, OrdenaArticulos> ItemsPedido; 
     typedef std::map<Pedido*, LineaPedido, OrdenaPedidos> Pedidos; 
-/*
-    void pedir(Pedido  &, Articulo&, double, unsigned int = 1u) noexcept;
-    void pedir(Articulo&, Pedido  &, double, unsigned int = 1u) noexcept;
-    const ItemsPedido& detalle(Pedido&) const noexcept(false);
-    void mostrarDetallePedidos(std::ostream&) noexcept;
-    Pedidos ventas(Articulo&) const noexcept;
-    void mostrarVentasArticulos(std::ostream&) noexcept;
-*/
+
     std::map<Pedido  *, ItemsPedido, OrdenaPedidos  > pedidos_articulos_;
     std::map<Articulo*, Pedidos    , OrdenaArticulos> articulos_pedidos_;
   };
@@ -91,7 +74,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     cerr << "\n---------- PRÁCTICA 3 ----------\n" << endl;
   }
 
-  // --- Pruebas de la clase LineaPedido
 
   FCT_TEST_BGN(LineaPedido - valor por defecto en 2do. parametro constructor) {
     const double pVenta  {  10.5  };
@@ -117,7 +99,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
   }
   FCT_TEST_END();
 
-  // El éxito de las pruebas depende de su orden. ¡No reordenar!
   FCT_SETUP_BGN() {
     pAsocUsuarioPedido  = new Usuario_Pedido ;
     pAsocPedidoArticulo = new Pedido_Articulo;
@@ -138,7 +119,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
   }
   FCT_TEARDOWN_END();
 
-  // --- Pruebas de Pedido
 
   FCT_TEST_BGN(Pedido - carrito vacio) {
     Usu_Ped* pU_P = reinterpret_cast<Usu_Ped*>(pAsocUsuarioPedido);
@@ -307,14 +287,12 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
       new Pedido {*pAsocUsuarioPedido, *pAsocPedidoArticulo, *pU, *pTarjetaU, fHoy} 
     };
     
-    // Actualización de carrito y stock
     fct_xchk(pU->compra().empty(), "Carrito no vacío tras ralizar pedido.");
     fct_xchk(articulo1.stock() == 49, "Existencias de articulo no actualizadas: "
             "articulo1.stock() == %d != 49", articulo1.stock());
     fct_xchk(articulo2.stock() == 49, "Existencias de articulo no actualizadas: "
             "articulo2.stock() == %d != 49", articulo2.stock());
     
-    // Asociación Usuario-Pedido
     fct_xchk(pAsocUsuarioPedido->cliente(*const_cast<Pedido*>(pPed.get())) == pU,
              "El usuario asociado al pedido no es el comprador.");
     if (pAsocUsuarioPedido->pedidos(*pU).size() == 1) {
@@ -324,12 +302,10 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     else
       fct_xchk(false, "El número de pedidos asociados al usuario debe ser 1.");
     
-    // Asociación Artículo-Pedido
     const Pedido_Articulo::ItemsPedido itPed {
       pAsocPedidoArticulo->detalle(* const_cast<Pedido*>(pPed.get())) 
 	  };
     if (itPed.size() == 2) {
-      // Los artículos deben ir ordenados por código de referencia
       auto it = itPed.cbegin();
       fct_xchk(it->first == &articulo2,
                "Artículo inesperado o desordenado en pedido.");
@@ -389,7 +365,6 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
   }
   FCT_TEST_END();
   
-  // Pruebas de la clase de asociación Pedido_Articulo
 
   FCT_TEST_BGN(Pedido---Articulo - detalle de un pedido) {
     pU->compra(articulo1, 1);
@@ -432,7 +407,6 @@ FCTMF_FIXTURE_SUITE_END()
 
 FCTMF_FIXTURE_SUITE_BGN(test_p3_informes) {
 
-  /// Batería de pruebas para los informes. Simula dos ventas de dos usuarios.  
   FCT_SETUP_BGN() {
     pAsocUsuarioPedido  = new Usuario_Pedido ;
     pAsocPedidoArticulo = new Pedido_Articulo;
@@ -441,12 +415,10 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_informes) {
     pTarjetaU  = new Tarjeta(nTarjeta, *pU, fUnaSemana);
     pTarjetaU2 = new Tarjeta(nTarjeta3,*pU2,fUnaSemana);
 
-    // Primera venta
     pU->compra(articulo1, cantidad_A1_P1);
     pPed1 = new Pedido(*pAsocUsuarioPedido, *pAsocPedidoArticulo, 
 		       *pU, *pTarjetaU, fHoy);
 
-    // Segunda venta, de otro usuario
     pU2->compra(articulo1, cantidad_A1_P2);
     pU2->compra(articulo2, cantidad_A2_P2);
     pPed2 = new Pedido(*pAsocUsuarioPedido, *pAsocPedidoArticulo,
@@ -531,12 +503,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_informes) {
     ostringstream os;
     pAsocPedidoArticulo->mostrarVentasArticulos(os);
     const string sDetalle { os.str() };
-    /*
-      Construimos expresiones regulares que buscan las cantidades
-      como palabras separadas del resto por espacios. Es decir, si
-      la cantidad es 1, ' 1' a final de línea, '1 ' a principio de
-      línea, o ' 1 ' valen, pero no '123', por ejemplo.
-    */
+    
     const string sRegexPrefijo { "€[[:space:]]+"   }; // "(€[[:space:]]|^)";  
     const string sRegexSufijo  { "([[:space:]]|$)" };
 #ifndef CPP11REGEX
@@ -548,24 +515,20 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_informes) {
       posCantidad_A1_P1 = find_regex(sRegexA1P1.c_str(), sDetalle.c_str()),
       posCantidad_A1_P2 = find_regex(sRegexA1P2.c_str(), sDetalle.c_str()),
       posCantidad_A2_P2 = find_regex(sRegexA2P2.c_str(), sDetalle.c_str());
-    // Las tres compras deben estar en la salida
     fct_chk(posCantidad_A1_P1 != -1);
     fct_chk(posCantidad_A1_P2 != -1);
     fct_chk(posCantidad_A2_P2 != -1);
-    // Las compras deben estar agrupadas por artículo, y debidamente ordenadas.
     fct_chk(posCantidad_A2_P2 < posCantidad_A1_P1);
     fct_chk(posCantidad_A1_P1 < posCantidad_A1_P2);
 #else
-    regex  		// La nueva biblioteca regex de C++11
+    regex  		
       sRegexA1P1(sRegexPrefijo + toString(cantidad_A1_P1) + sRegexSufijo),
       sRegexA1P2(sRegexPrefijo + toString(cantidad_A1_P2) + sRegexSufijo),
       sRegexA2P2(sRegexPrefijo + toString(cantidad_A2_P2) + sRegexSufijo);
     smatch cantidad_A1_P1, cantidad_A1_P2, cantidad_A2_P2;
-    // Las tres compras deben estar en la salida
     fct_chk(regex_search(sDetalle, cantidad_A1_P1, sRegexA1P1));
     fct_chk(regex_search(sDetalle, cantidad_A1_P2, sRegexA1P2));
     fct_chk(regex_search(sDetalle, cantidad_A2_P2, sRegexA2P2));
-    // Las compras deben estar agrupadas por artículo, y debidamente ordenadas.
     fct_chk(cantidad_A2_P2.position(0) < cantidad_A1_P1.position(0));
     fct_chk(cantidad_A1_P1.position(0) < cantidad_A1_P2.position(0));
 #endif

@@ -1,13 +1,4 @@
-/* -*-c++-*-
- * $Id: test-auto.hpp 344 2016-04-29 20:20:13Z gerardo $
- *
- * Fichero de cabecera para todos los tests unitarios automáticos
- * de todas las prácticas.
- * Debe estar definida la macro Px, siendo x | 0 ≤ x ≤ 4 el n.º de la práctica.
- *
- * ©2014 Antonio G.ª Dguez.
- * ©2015-18 el resto de profesores de POO
- */
+
 
 #ifndef TEST_AUTO_HPP_
 #define TEST_AUTO_HPP_
@@ -26,14 +17,7 @@
 #include <memory>
 #include <type_traits>
 #include <locale>
-/**
-   Lamentablemente, aún <regex>, de la biblioteca estándar de C++11,
-   no funciona bien en algunas versiones: muy mal en GCC C++ 4.8 y 
-   algo menos, pero no bien, en GCC C++ 4.9. A partir de la versión 5 ya
-   funciona bien. En cuanto a CLang, usa la misma biblioteca que GCC de
-   forma predeterminada. El problema no es tanto del compilador como de
-   la versión de la biblioteca estándar de C++ (en GNU/Linux, libstdc++).
-*/
+
 #if __GLIBCXX__ >= 20160301
 # define CPP11REGEX 1
 # include <regex>
@@ -56,7 +40,6 @@
 # include "usuario-pedido.hpp"
 #endif
 
-/*********************** COMPROBACIONES *********************/
 
 #define chk_incl_str(haystack, needle)                       \
   fct_xchk(strstr(haystack.c_str(), needle.c_str()) != NULL, \
@@ -78,29 +61,9 @@
            "failed chk_eq_cstr:\n'%s' != '%s'",              \
 	   (const char*)needle, haystack.c_str())
 
-/*********************** ZONA HORARIA ***********************/
-// Es innecesario fijar una zona horaria concreta, si tenemos
-// el cuidado de convertir la fecha del sistema a la zona 
-// horaria local (con la función estándar localtime), cada vez
-// que la utilicemos en el programa de prueba.
-/* Anulamos zona UTC
-// Establecemos la zona horaria a UTC para evitar cosas raras
-struct InicializaTZ {
-   InicializaTZ() { setenv("TZ", "", 1); tzset(); }
-};
 
-// En cada módulo donde se incluya esta cabecera test-auto.hpp
-// se define un objeto estático global InicializaTZ que establece
-// la zona horaria UTC (Universal Time Coordinated) para la 
-// ejecución de las pruebas de unidad definidas en dicho módulo,
-// es decir, el conjunto de pruebas de cada práctica (P0 a P4).
-static InicializaTZ tz;
-*/
-/************************ CLASES ****************************/
 #ifndef CPP11REGEX
-/**
-   Clase de excepción para expresiones regulares no válidas.
-*/
+
 class BadRegex : public std::exception {
 public:
   BadRegex(const char* regex) : regex_(regex) {}
@@ -110,37 +73,23 @@ private:
 };
 #endif
 
-/************************ UTILIDADES **********************/
 
 #if !defined(P0) && !defined(P1)
-/**
-   Comprueba que dos números de tarjeta son iguales. El enunciado solo
-   pide <, y no ==, por lo que emulamos == mediante <. Se aplica la
-   siguiente equivalencia:
 
-   a == b ssi < es orden total y !(a < b) y !(b < a)
-*/
 inline bool operator ==(const Numero& a, const Numero& b) 
 {
   return !(a < b) && !(b < a);
 }
 #endif
 
-/**
-   Elimina el separador de decimales, porque da problemas con
-   algunas localizaciones españolas, que incorrectamente ponen el ".". 
-   También, de paso, fijamos el separador de decimales a la coma.
-*/
+
 struct sin_separador : std::numpunct<char> {
 protected:
   virtual string_type do_grouping     () const { return "\000"; }
   virtual char_type   do_decimal_point() const { return ','   ; }
 };
 
-/**
-   Plantilla de función de utilidad para convertir algo a cadena (string), 
-   aprovechando su operador de inserción en flujo.
-*/
+
 template <typename T>
 std::string toString(const T& o) 
 {
@@ -150,27 +99,16 @@ std::string toString(const T& o)
   return os.str();
 }
 
-/**
-   Convierte una cantidad a euros, con su '€' y todo.
- */
+
 std::string toEuros(double cantidad);
 
 #ifdef P4
-/**
-   Crea un conjunto de autores con un solo autor. Útil cuando solo
-   podemos contar con un bloque namespace donde inicializarlo todo.
-   Autor[es] solo se definen en P4.
- */
+
 Articulo::Autores crea_autores(Autor& autor);
 #endif
 
 #ifndef CPP11REGEX
-/**
-   Función que busca una expresión regular dentro de una cadena y
-   devuelve la posición del comienzo de la primera coincidencia. 
-   Devuelve -1 cuando no encuentra ninguna. Lanza la excepción 
-   BadRegex cuando la expresion regular no es válida.
-*/
+
 regoff_t find_regex(const char* regex, const char* text) noexcept(false);
 #endif
 

@@ -1,10 +1,4 @@
-/* $Id: test-caso0-cadena-auto.cpp $
- *
- * Pruebas unitarias automáticas para la clase Cadena (P0, P1)
- *
- * ©2014 Antonio G.ª Dguez.
- * ©2015-23 el resto de profesores de POO
- */
+
 #include "test-auto.hpp"
 
 using namespace std;
@@ -71,7 +65,6 @@ FCTMF_SUITE_BGN(test_cadena) {
     fct_chk(c.operator const char*() != d.operator const char*());
   }
   FCT_TEST_END();
-  // Solo en P1, no se pide en P0
 #ifndef P0
   FCT_TEST_BGN(Cadena - Ctor: de movimiento) {
     Cadena a(3);
@@ -126,7 +119,6 @@ FCTMF_SUITE_BGN(test_cadena) {
   }
   FCT_TEST_END();
 
-  // Solo en P1, no se pide en P0
 #ifndef P0
   FCT_TEST_BGN(Cadena - Asignar una cadena a otra: movimiento) {
     Cadena a("hola"), b("adios");

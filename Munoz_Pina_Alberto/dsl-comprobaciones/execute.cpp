@@ -1,7 +1,4 @@
-/*
- * DSL para comprobaciones estáticas de código C++ para las prácticas de POO.
- * ©2021 Los profesores de POO.
- */
+
 #include "execute.h"
 
 
