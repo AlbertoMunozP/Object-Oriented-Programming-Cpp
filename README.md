@@ -6,11 +6,6 @@ The code is fully tested using automated test suites and compiled with `clang` v
 
 ---
 
-##  Repository Structure
-
-Estoy hay que completarlo todavía
-
----
 
 ##  Practice Breakdown
 
@@ -131,8 +126,4 @@ Each practice contains a `Makefile` to compile and test the code using `clang++`
 - Development tools: `gdb`, `valgrind`, 
 - Locale: `es_ES.UTF-8`
 
-### Example Usage
 
-```bash
-
-Aquí hay que poner los comandos indicando como se ejecut
